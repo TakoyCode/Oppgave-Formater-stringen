@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(69, 69, 69);
+            font-size: 225%;
+        }
+
+        .textDiv {
+            border: 3px solid black;
+        }
+
+        button {
+            font-size: 50%;
+        }
+
+        input {
+            font-size: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        //Model
+        let text = 'dette er teksten som blir endret';
+
+
+        //View
+        updateView();
+        function updateView() {
+            document.getElementById('app').innerHTML = /*html*/ `
+            <div class="textDiv">${text}</div>
+            <button onclick="makeTextUppercase()">Gjør tekst til uppercase</button>
+            <button onclick="makeTextLowercase()">Gjør tekst til lowercase</button>
+            <button onclick="makeFirstLetterUppercase(text)">Gjør første bokstav til uppercase</button>
+            <br/>
+            <label for="Input">Skriv inn tekst her:</label>
+            <input id="Input" type="text" onchange="getInputValue()">
+        `;
+        }
+
+
+        //Controller
+
+        //Henter tekst innholdet inni <inputen> og så lagrer det inni "text"
+        function getInputValue() {
+            text = document.getElementById('Input').value;
+            updateView();
+        }
+
+        // Denner gjør alle bokstaver inni "tekst" til store bokstaver
+        function makeTextUppercase() {
+            text = text.toUpperCase();
+            updateView();
+        }
+
+        // Denner gjør alle bokstaver inni "tekst" til små bokstaver
+        function makeTextLowercase() {
+            text = text.toLowerCase();
+            updateView();
+        }
+
+        function makeFirstLetterUppercase(textinput) {
+
+            //Fjerner alle mellomrom før første tegn og som evt. finnes etter siste tegn
+            let removedTextWithoutSpaces = textinput.trim();
+
+            //Tar den første tegnet fra "removedTextWithoutSpaces" og lagrer den i "removedLetter"
+            let removedLetter = removedTextWithoutSpaces.substring(0, 1);
+
+            //Setter "letterBeforeChanged" til hva som er inni "removedLetter"
+            let letterBeforeChanged = removedLetter;
+
+            //Gjør alt som er inni "removedLetter" til store bokstaver
+            removedLetter = removedLetter.toUpperCase();
+
+            /* inni "text" søker den etter bokstaven som er lagret inni "letterBeforechanged" 
+            og så endrer vi den bokstaven til hva som er inni "removedLetter" 
+            og så til slutt lagrer vi så endringen vi har gjort inni "text" */
+            text = text.replace(letterBeforeChanged, removedLetter);
+
+            //Oppdaterer siden med den nye endringen
+            updateView();
+        }
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>
